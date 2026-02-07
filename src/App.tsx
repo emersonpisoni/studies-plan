@@ -20,11 +20,11 @@ export default function App() {
   const trackName = useMemo(() => getTrack(trackId).name, [trackId]);
 
   return (
-    <div className="min-h-screen bg-blue-50">
-      <div className="pointer-events-none fixed inset-x-0 -top-24 mx-auto h-72 max-w-6xl rounded-full bg-gradient-to-r from-zinc-100 via-white to-zinc-100 blur-3xl" />
+    <div className="min-h-screen bg-blue-50 w-full">
+      <div className="pointer-events-none fixed inset-x-0 -top-24 mx-auto h-72 rounded-full" />
 
       <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/70 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4">
+        <div className="mx-auto flex items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <div className="min-w-0">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-zinc-900 text-white shadow-sm">
@@ -51,7 +51,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-6">
+      <main className="mx-auto px-4 py-6 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -76,7 +76,7 @@ export default function App() {
         onAdd={(t) => addCustomTopic(t)}
       />
 
-      <footer className="mx-auto max-w-5xl px-4 pb-10 pt-2 text-xs text-zinc-500">
+      <footer className="mx-auto px-4 pb-10 pt-2 text-xs text-zinc-500 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         Clique no ícone do item para alternar TODO → DOING → DONE. Tudo fica salvo no seu navegador.
       </footer>
     </div>

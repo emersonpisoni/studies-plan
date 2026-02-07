@@ -27,7 +27,7 @@ export function AddTopicModal({
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
       />
 
-      <div className="relative mx-auto mt-16 w-[calc(100%-2rem)] max-w-lg rounded-3xl border border-zinc-200 bg-white p-5 shadow-2xl">
+      <div className="relative mx-auto w-[calc(100%-2rem)] rounded-3xl border border-zinc-200 bg-white p-5 shadow-2xl sm:w-[calc(100%-3rem)] sm:p-6 lg:w-[calc(100%-4rem)]" style={{ maxWidth: '28rem', marginTop: '4rem' }}>
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-zinc-900">
