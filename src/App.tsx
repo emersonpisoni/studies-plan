@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { TrackSelector } from "./components/TrackSelector";
+import { TrackSelectionPage } from "./components/TrackSelectionPage";
 import { StudyPlan } from "./components/StudyPlan";
 import { AddTopicModal } from "./components/AddTopicModal";
 import { usePlanStore } from "./store/usePlanStore";
@@ -7,6 +8,7 @@ import { getTrack } from "./data/tracks";
 
 export default function App() {
   const trackId = usePlanStore((s) => s.trackId);
+  const hasSelectedTrack = usePlanStore((s) => s.hasSelectedTrack);
   const setTrack = usePlanStore((s) => s.setTrack);
   const ensureBasePlan = usePlanStore((s) => s.ensureBasePlan);
   const addCustomTopic = usePlanStore((s) => s.addCustomTopic);
@@ -18,6 +20,10 @@ export default function App() {
   }, [ensureBasePlan, trackId]);
 
   const trackName = useMemo(() => getTrack(trackId).name, [trackId]);
+
+  if (!hasSelectedTrack) {
+    return <TrackSelectionPage onSelect={setTrack} />;
+  }
 
   return (
     <div className="min-h-screen bg-blue-50 w-full">

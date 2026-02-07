@@ -15,6 +15,7 @@ type PlanItem = {
 
 type PlanState = {
   trackId: TrackId;
+  hasSelectedTrack: boolean;
   customTopicsByTrack: Record<TrackId, Topic[]>;
   itemsByTrack: Record<TrackId, PlanItem[]>;
 
@@ -49,12 +50,13 @@ export const usePlanStore = create<PlanState>()(
   persist(
     (set, get) => ({
       trackId: "frontend",
+      hasSelectedTrack: false,
       customTopicsByTrack: makeEmptyCustom(),
       itemsByTrack: makeEmptyItems(),
 
       setTrack: (trackId) => {
         get().ensureBasePlan(trackId);
-        set({ trackId });
+        set({ trackId, hasSelectedTrack: true });
       },
 
       ensureBasePlan: (trackId) => {
@@ -163,6 +165,7 @@ export const usePlanStore = create<PlanState>()(
       version: 1,
       partialize: (s) => ({
         trackId: s.trackId,
+        hasSelectedTrack: s.hasSelectedTrack,
         customTopicsByTrack: s.customTopicsByTrack,
         itemsByTrack: s.itemsByTrack,
       }),
