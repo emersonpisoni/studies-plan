@@ -28,7 +28,15 @@ export function StudyPlan() {
 
   useMemo(() => ensureBasePlan(trackId), [ensureBasePlan, trackId]);
 
-  const baseTopics = getTrack(trackId).recommended;
+  const customTracks = usePlanStore((s) => s.tracks);
+  const baseTopics = (() => {
+    try {
+      return getTrack(trackId).recommended;
+    } catch (e) {
+      const custom = customTracks.find((t) => t.id === trackId);
+      return custom ? custom.recommended : [];
+    }
+  })();
   const customTopics = customTopicsByTrack[trackId] ?? [];
   const allTopics: Topic[] = [...baseTopics, ...customTopics];
 

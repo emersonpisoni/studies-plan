@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Topic, TrackId } from "../data/tracks";
-import { getTrack } from "../data/tracks";
+import type { Topic, TrackId, Track } from "../data/tracks";
+import { getTrack, TRACKS } from "../data/tracks";
 
 export type Status = "todo" | "doing" | "done";
 
@@ -16,11 +16,13 @@ type PlanItem = {
 type PlanState = {
   trackId: TrackId;
   hasSelectedTrack: boolean;
+  tracks: Track[];
   customTopicsByTrack: Record<TrackId, Topic[]>;
   itemsByTrack: Record<TrackId, PlanItem[]>;
 
   setTrack: (trackId: TrackId) => void;
   resetTrackSelection: () => void;
+  addTrack: (track: Omit<Track, "id"> & { id?: string }) => void;
   ensureBasePlan: (trackId: TrackId) => void;
 
   addCustomTopic: (topic: Omit<Topic, "id"> & { id?: string }) => void;
@@ -52,6 +54,7 @@ export const usePlanStore = create<PlanState>()(
     (set, get) => ({
       trackId: "frontend",
       hasSelectedTrack: false,
+      tracks: TRACKS,
       customTopicsByTrack: makeEmptyCustom(),
       itemsByTrack: makeEmptyItems(),
 
@@ -64,13 +67,45 @@ export const usePlanStore = create<PlanState>()(
         set({ hasSelectedTrack: false });
       },
 
+      addTrack: (trackInput) => {
+        const state = get();
+        const name = trackInput.name.trim();
+        const slug = (trackInput.id ?? name)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "");
+
+        if (state.tracks.some((t) => t.id === slug)) {
+          throw new Error("Já existe uma trilha com esse id.");
+        }
+
+        const newTrack: Track = {
+          id: slug as TrackId,
+          name,
+          recommended: trackInput.recommended ?? [],
+        };
+
+        set({
+          tracks: [...state.tracks, newTrack],
+          trackId: newTrack.id,
+          hasSelectedTrack: true,
+        });
+      },
+
       ensureBasePlan: (trackId) => {
         const state = get();
         const items = state.itemsByTrack[trackId] ?? [];
         if (items.length > 0) return;
 
-        const base = getTrack(trackId).recommended;
-        const seeded: PlanItem[] = base.map((t, idx) => ({
+        let baseTopics = [] as typeof state.customTopicsByTrack[TrackId];
+        try {
+          baseTopics = getTrack(trackId).recommended;
+        } catch (e) {
+          const custom = state.tracks.find((t) => t.id === trackId);
+          baseTopics = custom ? custom.recommended : [];
+        }
+
+        const seeded: PlanItem[] = baseTopics.map((t, idx) => ({
           topicId: t.id,
           status: "todo",
           addedBy: "system",
@@ -171,6 +206,7 @@ export const usePlanStore = create<PlanState>()(
       partialize: (s) => ({
         trackId: s.trackId,
         hasSelectedTrack: s.hasSelectedTrack,
+        tracks: s.tracks,
         customTopicsByTrack: s.customTopicsByTrack,
         itemsByTrack: s.itemsByTrack,
       }),

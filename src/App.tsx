@@ -19,7 +19,15 @@ export default function App() {
     ensureBasePlan(trackId);
   }, [ensureBasePlan, trackId]);
 
-  const trackName = useMemo(() => getTrack(trackId).name, [trackId]);
+  const trackName = usePlanStore((s) => {
+    const custom = s.tracks.find((t) => t.id === s.trackId);
+    if (custom) return custom.name;
+    try {
+      return getTrack(s.trackId).name;
+    } catch (e) {
+      return "Trilha";
+    }
+  });
 
   if (!hasSelectedTrack) {
     return <TrackSelectionPage onSelect={setTrack} />;
