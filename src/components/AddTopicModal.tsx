@@ -27,7 +27,7 @@ export function AddTopicModal({
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
       />
 
-      <div className="relative mx-auto w-[calc(100%-2rem)] rounded-3xl border border-zinc-200 bg-white p-5 shadow-2xl sm:w-[calc(100%-3rem)] sm:p-6 lg:w-[calc(100%-4rem)]" style={{ maxWidth: '28rem', marginTop: '4rem' }}>
+      <div className="relative mx-auto mt-36 max-w-4xl rounded-3xl border border-zinc-200 bg-white p-5 shadow-2xl sm:w-[calc(100%-3rem)] sm:p-6 lg:w-[calc(100%-4rem)]">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-zinc-900">
@@ -51,7 +51,7 @@ export function AddTopicModal({
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="rounded-2xl border border-zinc-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-zinc-200"
+              className="rounded-2xl border border-zinc-200 px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-zinc-200"
               placeholder="Ex: React Router"
               autoFocus
             />
@@ -65,7 +65,7 @@ export function AddTopicModal({
               <input
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="rounded-2xl border border-zinc-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-zinc-200"
+                className="rounded-2xl border border-zinc-200 px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-zinc-200"
                 placeholder="Ex: Roteamento"
               />
             </label>
@@ -75,7 +75,7 @@ export function AddTopicModal({
               <select
                 value={level}
                 onChange={(e) => setLevel(e.target.value as Topic["level"])}
-                className="rounded-2xl border border-zinc-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-zinc-200"
+                className="rounded-2xl border border-zinc-200 px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-zinc-200"
               >
                 <option value="fundamentos">fundamentos</option>
                 <option value="intermediario">intermediario</option>
@@ -90,7 +90,7 @@ export function AddTopicModal({
               <input
                 value={estimatedHours}
                 onChange={(e) => setEstimatedHours(e.target.value)}
-                className="rounded-2xl border border-zinc-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-zinc-200"
+                className="rounded-2xl border border-zinc-200 px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-zinc-200"
                 placeholder="Ex: 8"
                 inputMode="numeric"
               />

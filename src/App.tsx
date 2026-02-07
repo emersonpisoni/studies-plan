@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { TrackSelector } from "./components/TrackSelector";
 import { TrackSelectionPage } from "./components/TrackSelectionPage";
 import { StudyPlan } from "./components/StudyPlan";
 import { AddTopicModal } from "./components/AddTopicModal";
@@ -10,6 +9,7 @@ export default function App() {
   const trackId = usePlanStore((s) => s.trackId);
   const hasSelectedTrack = usePlanStore((s) => s.hasSelectedTrack);
   const setTrack = usePlanStore((s) => s.setTrack);
+  const resetTrackSelection = usePlanStore((s) => s.resetTrackSelection);
   const ensureBasePlan = usePlanStore((s) => s.ensureBasePlan);
   const addCustomTopic = usePlanStore((s) => s.addCustomTopic);
 
@@ -48,31 +48,24 @@ export default function App() {
             </div>
           </div>
 
-          <button
-            onClick={() => setOpen(true)}
-            className="shrink-0 rounded-2xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-200"
-          >
-            + Adicionar
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={resetTrackSelection}
+              className="shrink-0 rounded-2xl border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-200"
+            >
+              ← Voltar
+            </button>
+            <button
+              onClick={() => setOpen(true)}
+              className="shrink-0 rounded-2xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-200"
+            >
+              + Adicionar
+            </button>
+          </div>
         </div>
       </header>
 
       <main className="mx-auto px-4 py-6 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
-        <div className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-sm font-semibold text-zinc-900">
-                Escolha a trilha
-              </h2>
-              <p className="mt-1 text-sm text-zinc-600">
-                O plano base aparece automaticamente. Adicione estudos custom e acompanhe o progresso.
-              </p>
-            </div>
-
-            <TrackSelector value={trackId} onChange={setTrack} />
-          </div>
-        </div>
-
         <StudyPlan />
       </main>
 

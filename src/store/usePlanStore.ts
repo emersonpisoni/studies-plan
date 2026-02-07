@@ -20,6 +20,7 @@ type PlanState = {
   itemsByTrack: Record<TrackId, PlanItem[]>;
 
   setTrack: (trackId: TrackId) => void;
+  resetTrackSelection: () => void;
   ensureBasePlan: (trackId: TrackId) => void;
 
   addCustomTopic: (topic: Omit<Topic, "id"> & { id?: string }) => void;
@@ -57,6 +58,10 @@ export const usePlanStore = create<PlanState>()(
       setTrack: (trackId) => {
         get().ensureBasePlan(trackId);
         set({ trackId, hasSelectedTrack: true });
+      },
+
+      resetTrackSelection: () => {
+        set({ hasSelectedTrack: false });
       },
 
       ensureBasePlan: (trackId) => {
